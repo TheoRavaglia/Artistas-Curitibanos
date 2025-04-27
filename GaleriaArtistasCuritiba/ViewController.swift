@@ -1,4 +1,3 @@
-//
 //  ViewController.swift
 //  GaleriaArtistasCuritiba
 //
@@ -36,7 +35,8 @@ class ViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(ObraCollectionViewCell.self, forCellWithReuseIdentifier: ObraCollectionViewCell.identifier)
+        collectionView.register(ObraCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ObraCollectionViewCell.identifier)
         collectionView.backgroundColor = .systemGroupedBackground
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
@@ -50,7 +50,8 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         obras.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ObraCollectionViewCell.identifier,
             for: indexPath
@@ -62,15 +63,17 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 48) / 2 // 2 colunas com espaçamento
-        return CGSize(width: width, height: width + 60) // Altura = largura da imagem + labels
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width - 48) / 2  // 2 colunas com espaçamento
+        return CGSize(width: width, height: width + 60)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let obra = obras[indexPath.row]
-        let detailVC = DetailViewController(obra: obra)
-        navigationController?.pushViewController(detailVC, animated: true)
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        let obraSelecionada = obras[indexPath.item]
+        let detalheVC = DetailViewController(obra: obraSelecionada)
+        navigationController?.pushViewController(detalheVC, animated: true)
     }
 }
-

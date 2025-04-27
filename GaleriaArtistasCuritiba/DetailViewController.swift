@@ -4,6 +4,12 @@
 //
 //  Created by user276557 on 4/25/25.
 //
+//
+//  DetailViewController.swift
+//  GaleriaArtistasCuritiba
+//
+//  Created by user on 4/25/25.
+//
 
 import UIKit
 
@@ -88,39 +94,44 @@ class DetailViewController: UIViewController {
         contentView.addSubview(artistaLabel)
         contentView.addSubview(infoStackView)
         
-        // Constraints
         NSLayoutConstraint.activate([
+            // ScrollView
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
+            // ContentView
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
+            // Obra Image
             obraImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             obraImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             obraImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             obraImageView.heightAnchor.constraint(equalTo: obraImageView.widthAnchor),
             
+            // Título
             tituloLabel.topAnchor.constraint(equalTo: obraImageView.bottomAnchor, constant: 20),
             tituloLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             tituloLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
+            // Artista
             artistaLabel.topAnchor.constraint(equalTo: tituloLabel.bottomAnchor, constant: 8),
             artistaLabel.leadingAnchor.constraint(equalTo: tituloLabel.leadingAnchor),
             artistaLabel.trailingAnchor.constraint(equalTo: tituloLabel.trailingAnchor),
             
+            // Stack de informações
             infoStackView.topAnchor.constraint(equalTo: artistaLabel.bottomAnchor, constant: 20),
             infoStackView.leadingAnchor.constraint(equalTo: tituloLabel.leadingAnchor),
             infoStackView.trailingAnchor.constraint(equalTo: tituloLabel.trailingAnchor),
             infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
         
-        // Adiciona informações à stack view
+        // Insere itens de ano, estilo e descrição
         let anoItem = createInfoItem(title: "Ano", value: "\(obra.ano)")
         let estiloItem = createInfoItem(title: "Estilo", value: obra.estilo)
         let descricaoItem = createInfoItem(title: "Descrição", value: obra.descricao)
@@ -148,7 +159,6 @@ class DetailViewController: UIViewController {
         
         sv.addArrangedSubview(titleLabel)
         sv.addArrangedSubview(valueLabel)
-        
         return sv
     }
     
@@ -158,28 +168,23 @@ class DetailViewController: UIViewController {
         artistaLabel.text = obra.artista
     }
     
-    // MARK: - Botão de Compartilhamento
+    // MARK: - Compartilhamento
     private func setupShareButton() {
-        let shareButton = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(shareTapped)
-        )
-        navigationItem.rightBarButtonItem = shareButton
+        let btn = UIBarButtonItem(barButtonSystemItem: .action,
+                                  target: self,
+                                  action: #selector(shareTapped))
+        navigationItem.rightBarButtonItem = btn
     }
     
     @objc private func shareTapped() {
-        let shareText = "Confira a obra \(obra.titulo) por \(obra.artista). Descubra mais artistas curitibanos!"
-        let activityVC = UIActivityViewController(
-            activityItems: [shareText],
-            applicationActivities: nil
-        )
-        
-        // Configuração para iPad (popover)
-        if let popover = activityVC.popoverPresentationController {
-            popover.barButtonItem = navigationItem.rightBarButtonItem
+        let texto = """
+        Confira a obra "\(obra.titulo)" por \(obra.artista).
+        Descubra mais artistas curitibanos!
+        """
+        let vc = UIActivityViewController(activityItems: [texto], applicationActivities: nil)
+        if let pop = vc.popoverPresentationController {
+            pop.barButtonItem = navigationItem.rightBarButtonItem
         }
-        
-        present(activityVC, animated: true)
+        present(vc, animated: true)
     }
 }
